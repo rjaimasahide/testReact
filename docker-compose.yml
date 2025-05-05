@@ -1,0 +1,36 @@
+services:
+  server:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: express
+    ports:
+      - "3001:3001"
+    volumes:
+      - "./testReact/server:/usr/src/app"
+    working_dir: /usr/src/app
+    command: 
+      - /bin/bash 
+      - -c 
+      - |
+        npm init -y
+        npm install -D typescript @types/node
+        npm install express
+        npm install -D @types/express
+        npm install -D ts-node
+        npm install -g nodemon
+        npx tsc --init
+        /bin/bash
+    tty: true
+  
+  client:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: react
+    ports:
+      - "3000:3000"
+    tty: true
+    volumes:
+      - "./testReact/client:/usr/src/app"
+    
